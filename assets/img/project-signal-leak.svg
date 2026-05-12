@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-label="Signal Leak preview">
+  <rect width="960" height="540" fill="#06101d"/>
+  <g opacity=".18" stroke="#5ee7ff" stroke-width="1">
+    <path d="M0 80h960M0 160h960M0 240h960M0 320h960M0 400h960M0 480h960"/>
+    <path d="M80 0v540M160 0v540M240 0v540M320 0v540M400 0v540M480 0v540M560 0v540M640 0v540M720 0v540M800 0v540M880 0v540"/>
+  </g>
+  <circle cx="720" cy="190" r="130" fill="none" stroke="#ff4fd8" stroke-width="18" opacity=".25"/>
+  <circle cx="720" cy="190" r="68" fill="none" stroke="#5ee7ff" stroke-width="8" opacity=".35"/>
+  <g shape-rendering="crispEdges">
+    <rect x="430" y="240" width="70" height="70" fill="#152b46"/>
+    <rect x="448" y="258" width="34" height="34" fill="#5ee7ff"/>
+    <rect x="398" y="260" width="34" height="28" fill="#10233a"/>
+    <rect x="500" y="260" width="34" height="28" fill="#10233a"/>
+    <rect x="455" y="318" width="12" height="28" fill="#ff4fd8"/>
+    <rect x="478" y="318" width="12" height="28" fill="#5ee7ff"/>
+    <rect x="230" y="145" width="50" height="50" fill="#ff315a" transform="rotate(45 255 170)"/>
+    <rect x="690" y="335" width="70" height="70" fill="#7c4dff"/>
+    <rect x="138" y="360" width="45" height="45" fill="#ffe27a"/>
+    <rect x="760" y="112" width="40" height="40" fill="#e7f1ff"/>
+    <rect x="580" y="120" width="25" height="8" fill="#5ee7ff"/>
+    <rect x="610" y="140" width="25" height="8" fill="#5ee7ff"/>
+    <rect x="175" y="250" width="80" height="10" fill="#5ee7ff"/>
+    <rect x="185" y="268" width="62" height="10" fill="#ff4fd8"/>
+  </g>
+  <text x="48" y="78" fill="#e7f1ff" font-family="monospace" font-size="38" font-weight="700">SIGNAL LEAK</text>
+  <text x="50" y="118" fill="#9fb3c8" font-family="monospace" font-size="20">Godot arcade survival game</text>
+</svg>

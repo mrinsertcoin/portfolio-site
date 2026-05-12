@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-label="CSV Anonymizer preview">
+  <rect width="960" height="540" fill="#06101d"/>
+  <rect x="70" y="70" width="360" height="360" rx="18" fill="#0d1d31" stroke="#5ee7ff" stroke-opacity=".25"/>
+  <rect x="530" y="70" width="360" height="360" rx="18" fill="#0d1d31" stroke="#ff4fd8" stroke-opacity=".25"/>
+  <g fill="#9fb3c8" font-family="monospace" font-size="22">
+    <text x="105" y="130">name,email,phone</text>
+    <text x="105" y="185">Anna,anna@x.de,0171...</text>
+    <text x="105" y="240">Max,max@y.de,0152...</text>
+    <text x="105" y="295">Lisa,lisa@z.de,0160...</text>
+  </g>
+  <g fill="#9fb3c8" font-family="monospace" font-size="22">
+    <text x="565" y="130">name,email,phone</text>
+    <text x="565" y="185">P-102,***@x.de,0171****</text>
+    <text x="565" y="240">P-418,***@y.de,0152****</text>
+    <text x="565" y="295">P-773,***@z.de,0160****</text>
+  </g>
+  <path d="M450 250h80" stroke="#5ee7ff" stroke-width="12" stroke-linecap="round"/>
+  <path d="M510 230l30 30-30 30" fill="none" stroke="#5ee7ff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="88" y="392" fill="#5ee7ff" font-family="monospace" font-size="22">raw CSV</text>
+  <text x="548" y="392" fill="#ff4fd8" font-family="monospace" font-size="22">anonymized output</text>
+</svg>

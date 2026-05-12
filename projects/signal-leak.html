@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Signal Leak — Project | Linus Floyd</title>
+  <meta name="description" content="Signal Leak is a Godot 4 arcade survival game with modular enemy AI, stacking upgrades, procedural audio, and Windows export support." />
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+</head>
+<body>
+  <div class="site-bg" aria-hidden="true"></div>
+  <header class="site-header">
+    <nav class="nav container" aria-label="Main navigation">
+      <a class="brand" href="../index.html"><span class="brand-mark">LF</span><span>Linus Floyd</span></a>
+      <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false">☰</button>
+      <div class="nav-links">
+        <a href="../index.html#projects">Projects</a>
+        <a href="../index.html#skills">Skills</a>
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="project-hero">
+      <div class="container">
+        <div class="breadcrumbs"><a href="../index.html">Home</a><span>/</span><span>Signal Leak</span></div>
+        <p class="eyebrow">Godot 4 · GDScript · Windows export</p>
+        <h1>Signal Leak</h1>
+        <p class="hero-text">A top-down arcade survival game set inside a collapsing digital signal.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container project-layout">
+        <div>
+          <img class="content-card" src="../assets/img/project-signal-leak.svg" alt="Signal Leak preview" />
+          <article class="content-card">
+            <h2>Overview</h2>
+            <p>
+              Signal Leak is a compact arcade survival game built in Godot 4. The player survives enemy waves,
+              collects stackable upgrades, manages ammo, charges a directional ultra attack, and deals with timed
+              Doomsday events that temporarily increase enemy pressure.
+            </p>
+          </article>
+          <article class="content-card">
+            <h2>Implemented systems</h2>
+            <ul>
+              <li>Endless, campaign, and debug endless modes.</li>
+              <li>Enemy archetypes with different movement/combat behavior.</li>
+              <li>Stacking weapon upgrades: Triple Shot, Bounce, Homing, Reverse Shot, Fire Ring, and Orbit Disk.</li>
+              <li>Leveling, difficulty scaling, local highscores, and run summaries.</li>
+              <li>Procedural ambient music using Godot's audio generator.</li>
+              <li>Export-ready Windows build and release notes.</li>
+            </ul>
+          </article>
+          <article class="content-card">
+            <h2>What this demonstrates</h2>
+            <p>
+              The project shows modular game systems, state handling, input design, runtime balancing, local save data,
+              documentation, and packaging a playable release instead of only publishing source code.
+            </p>
+          </article>
+        </div>
+
+        <aside class="sidebar content-card">
+          <h2>Project details</h2>
+          <ul class="meta-list">
+            <li><strong>Role</strong>Solo developer</li>
+            <li><strong>Engine</strong>Godot 4</li>
+            <li><strong>Language</strong>GDScript</li>
+            <li><strong>Status</strong>Alpha portfolio release</li>
+          </ul>
+          <a class="button primary" href="https://github.com/mrinsertcoin/signal-leak" target="_blank" rel="noreferrer">View repository</a>
+          <a class="button" href="https://github.com/mrinsertcoin/signal-leak/releases/latest" target="_blank" rel="noreferrer">Latest release</a>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="container footer-inner"><span>© <span id="year"></span> Linus Floyd</span><span>Static portfolio site.</span></div></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

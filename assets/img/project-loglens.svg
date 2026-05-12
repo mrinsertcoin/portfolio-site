@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-label="LogLens Lite preview">
+  <rect width="960" height="540" fill="#07111f"/>
+  <rect x="70" y="70" width="820" height="380" rx="24" fill="#0d1d31" stroke="#5ee7ff" stroke-opacity=".25"/>
+  <g font-family="monospace" font-size="25">
+    <text x="110" y="130" fill="#5ee7ff">$ python -m loglens sample_logs --format markdown</text>
+    <text x="110" y="190" fill="#78ffb0">INFO</text><text x="190" y="190" fill="#9fb3c8">126 events processed</text>
+    <text x="110" y="235" fill="#ffe27a">WARN</text><text x="190" y="235" fill="#9fb3c8">18 warnings found</text>
+    <text x="110" y="280" fill="#ff315a">ERROR</text><text x="190" y="280" fill="#9fb3c8">4 incidents require review</text>
+    <text x="110" y="350" fill="#e7f1ff">report.md generated</text>
+  </g>
+  <g opacity=".4" stroke="#ff4fd8" stroke-width="8">
+    <path d="M660 320l45-45 45 45 70-90" fill="none"/>
+  </g>
+</svg>

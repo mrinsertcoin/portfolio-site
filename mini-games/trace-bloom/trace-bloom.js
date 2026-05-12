@@ -71,7 +71,7 @@
     state.wave = 1;
     state.message = "TRACE ONLINE";
     state.messageTimer = 2.0;
-    state.hint = "Enemies only chase you now. Hold trace near cyan nodes; they bloom much faster.";
+    state.hint = "Trace recharges slowly. Collect green packets to keep blooming nodes.";
     state.hintTimer = 7.5;
     state.cameraShake = 0;
 
@@ -136,7 +136,7 @@
       state.hint = "Training wave: hold trace near the cyan node. You can move while collecting.";
       state.hintTimer = 6.5;
     } else if (wave === 2) {
-      state.hint = "Tip: collect green packets to refill trace energy.";
+      state.hint = "Tip: green packets restore a large amount of trace energy.";
       state.hintTimer = 5.5;
     }
   }
@@ -256,7 +256,7 @@
         spawnParticle(player.x, player.y, colors.cyan, 1.4, 0.7);
       }
     } else {
-      player.energy = Math.min(100, player.energy + dt * 18);
+      player.energy = Math.min(100, player.energy + dt * 7);
     }
   }
 
@@ -330,7 +330,7 @@
       state.score += state.wave * 1000;
       state.wave += 1;
       player.signal = Math.min(100, player.signal + 16);
-      player.energy = Math.min(100, player.energy + 45);
+      player.energy = Math.min(100, player.energy + 20);
       startWave(state.wave);
     }
   }
@@ -757,7 +757,7 @@
     ctx.font = "16px ui-monospace, SFMono-Regular, Consolas, monospace";
     ctx.textAlign = "center";
     ctx.fillText("Hold SPACE or LEFT MOUSE near cyan nodes to stabilize them", W / 2, H / 2 + 88);
-    ctx.fillText("Enemies chase you, not nodes. Bloom fields push them away.", W / 2, H / 2 + 114);
+    ctx.fillText("Green packets matter: passive trace regeneration is slow.", W / 2, H / 2 + 114);
     ctx.textAlign = "left";
   }
 

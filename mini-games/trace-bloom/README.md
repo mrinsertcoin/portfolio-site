@@ -130,3 +130,7 @@ The main game loop is in `trace-bloom.js`:
 ## License
 
 MIT
+
+## Balance Notes
+
+Trace energy regenerates slowly. Completing a wave gives only a small trace-energy boost, so collecting green packets is part of the intended route-planning loop.

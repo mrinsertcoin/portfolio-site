@@ -44,7 +44,7 @@ To stabilize a node:
 2. Move into a cyan leak node.
 3. Stay inside it while tracing until it blooms.
 
-Avoid red noise pulses. They damage your signal and can cut your trace. The first wave is intentionally a training wave with fewer and slower enemies.
+Avoid red noise pulses. They damage your signal and can cut your trace. While tracing near a cyan node, the node creates a bloom field that pushes enemies away so they cannot camp the objective.
 
 ## Features
 

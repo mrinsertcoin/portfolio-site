@@ -1,22 +1,27 @@
 # Balance Notes
 
-This build adjusts the first version because the opening wave was too punishing and under-explained.
+This version fixes the main design problem from the earlier build.
+
+## What was wrong
+
+Enemies could target and camp the same cyan nodes the player had to stabilize.  
+That made the objective feel unfair because the player had to stand still while enemies occupied the node.
 
 ## What changed
 
-- Wave 1 is now a training wave.
-- First wave starts with 2 leak nodes instead of 3.
-- First wave starts with 2 enemies instead of 6.
-- Extra enemy spawning is disabled during wave 1.
-- Enemy movement is slower.
+- Enemies now pressure the player instead of targeting leak nodes.
+- Stabilization works in a larger radius around each cyan node.
+- You can move around inside the bloom radius instead of standing perfectly still.
+- Active tracing near a node creates a bloom field.
+- The bloom field pushes nearby enemies away.
+- Enemies that stay too close to an active bloom field can be destroyed.
+- Wave 1 starts with only 1 slow enemy.
+- Extra enemy spawning is disabled for waves 1 and 2.
+- Enemy speed and damage were reduced.
 - Node stabilization is faster.
-- Node progress decays much more slowly.
-- Red enemy collision damage is lower.
-- Green packets restore more signal/trace energy.
-- On-screen tutorial hints explain the core mechanic.
 
 ## Core mechanic
 
-Hold **Space** or **Left Mouse** while standing inside a cyan node.  
-Stay in the node until the progress ring fills.  
-Bloom all nodes to clear the wave.
+Hold **Space** or **Left Mouse** while near a cyan node.  
+Move around inside the faint outer ring until the progress ring fills.  
+The bloom field gives you temporary space control while you stabilize the node.

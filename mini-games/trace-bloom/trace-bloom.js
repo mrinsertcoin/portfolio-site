@@ -71,7 +71,7 @@
     state.wave = 1;
     state.message = "TRACE ONLINE";
     state.messageTimer = 2.0;
-    state.hint = "Hold SPACE or LEFT MOUSE inside cyan nodes until the ring fills.";
+    state.hint = "Hold SPACE or LEFT MOUSE near cyan nodes. The bloom field pushes enemies away.";
     state.hintTimer = 7.5;
     state.cameraShake = 0;
 
@@ -110,7 +110,7 @@
     trace = [];
 
     const leakCount = Math.min(2 + Math.floor(wave / 3), 5);
-    const enemyCount = wave === 1 ? 2 : 3 + Math.floor(wave * 1.45);
+    const enemyCount = wave === 1 ? 1 : 2 + Math.floor(wave * 1.15);
 
     for (let i = 0; i < leakCount; i++) {
       leaks.push({
@@ -133,7 +133,7 @@
 
     announce(`WAVE ${wave}`);
     if (wave === 1) {
-      state.hint = "Training wave: stabilize the two cyan nodes. Red enemies are slower here.";
+      state.hint = "Training wave: trace near nodes. You can move around inside the bloom radius.";
       state.hintTimer = 6.5;
     } else if (wave === 2) {
       state.hint = "Tip: collect green packets to refill trace energy.";
@@ -161,7 +161,7 @@
       vx: 0,
       vy: 0,
       r: isCutter ? 15 : isHunter ? 18 : 13,
-      speed: isCutter ? rand(62, 92) : isHunter ? rand(82, 118) : rand(58, 88),
+      speed: isCutter ? rand(48, 72) : isHunter ? rand(62, 92) : rand(44, 68),
       type: isCutter ? "cutter" : isHunter ? "hunter" : "noise",
       wobble: rand(0, TAU)
     });
@@ -280,10 +280,31 @@
         continue;
       }
 
-      const touching = Math.hypot(player.x - leak.x, player.y - leak.y) < leak.r + player.r;
+      const touching = Math.hypot(player.x - leak.x, player.y - leak.y) < leak.r + player.r + 22;
       if (touching && isTracing()) {
-        leak.progress += dt * 0.78;
-        player.energy = Math.max(0, player.energy - dt * 5);
+        leak.progress += dt * 1.05;
+        player.energy = Math.max(0, player.energy - dt * 3.5);
+
+        // Active bloom field:
+        // While tracing inside a node, the node emits a defensive pulse.
+        // This prevents enemies from camping the objective and gives the player
+        // a fair way to claim space without turning the game into a shooter.
+        for (let i = enemies.length - 1; i >= 0; i--) {
+          const enemy = enemies[i];
+          const d = Math.hypot(enemy.x - leak.x, enemy.y - leak.y);
+          if (d < leak.r + 70) {
+            const nx = (enemy.x - leak.x) / Math.max(1, d);
+            const ny = (enemy.y - leak.y) / Math.max(1, d);
+            enemy.vx += nx * 520 * dt;
+            enemy.vy += ny * 520 * dt;
+
+            if (d < leak.r + 28 && Math.random() < dt * 3.2) {
+              spawnParticle(enemy.x, enemy.y, colors.cyan, 2.4, 0.45);
+              enemies.splice(i, 1);
+              state.score += 90;
+            }
+          }
+        }
 
         if (Math.random() < dt * 42) {
           spawnParticle(leak.x + rand(-16, 16), leak.y + rand(-16, 16), colors.cyan, 2.2, 1.0);
@@ -315,27 +336,15 @@
   }
 
   function nearestTarget(enemy) {
-    if (enemy.type === "hunter") return player;
-
-    const activeLeaks = leaks.filter(l => !l.stable);
-    if (activeLeaks.length && Math.random() > 0.15) {
-      let best = activeLeaks[0];
-      let bestDist = dist(enemy, best);
-      for (const leak of activeLeaks) {
-        const d = dist(enemy, leak);
-        if (d < bestDist) {
-          best = leak;
-          bestDist = d;
-        }
-      }
-      return best;
-    }
-
+    // Fairness fix:
+    // Enemies should pressure the player, not camp the exact objective node.
+    // The old version often targeted active leak nodes, which made the core mechanic
+    // feel impossible because enemies waited on the place the player had to stand.
     return player;
   }
 
   function updateEnemies(dt) {
-    const extraSpawnRate = state.wave === 1 ? 0.0 : 0.012 + state.wave * 0.005 + state.time * 0.00045;
+    const extraSpawnRate = state.wave <= 2 ? 0.0 : 0.006 + state.wave * 0.003 + state.time * 0.00022;
     if (Math.random() < extraSpawnRate) spawnEnemy();
 
     for (let i = enemies.length - 1; i >= 0; i--) {
@@ -359,7 +368,7 @@
       e.y += e.vy * dt;
 
       if (dist(e, player) < e.r + player.r && player.invuln <= 0) {
-        hurtPlayer(e.type === "hunter" ? 10 : 7);
+        hurtPlayer(e.type === "hunter" ? 8 : 5);
         enemies.splice(i, 1);
         continue;
       }
@@ -560,6 +569,14 @@
       ctx.arc(0, 0, leak.r + pulse * 5, 0, TAU);
       ctx.stroke();
 
+      if (!leak.stable) {
+        ctx.strokeStyle = "rgba(95, 245, 255, 0.16)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(0, 0, leak.r + 36, 0, TAU);
+        ctx.stroke();
+      }
+
       ctx.strokeStyle = leak.stable ? colors.green : colors.cyan;
       ctx.lineWidth = 6;
       ctx.beginPath();
@@ -741,8 +758,8 @@
     ctx.fillStyle = colors.muted;
     ctx.font = "16px ui-monospace, SFMono-Regular, Consolas, monospace";
     ctx.textAlign = "center";
-    ctx.fillText("Hold SPACE or LEFT MOUSE to draw a live trace", W / 2, H / 2 + 88);
-    ctx.fillText("Avoid red noise pulses. Green packets refill trace energy.", W / 2, H / 2 + 114);
+    ctx.fillText("Hold SPACE or LEFT MOUSE near cyan nodes to stabilize them", W / 2, H / 2 + 88);
+    ctx.fillText("Bloom fields push enemies away. Green packets refill trace energy.", W / 2, H / 2 + 114);
     ctx.textAlign = "left";
   }
 

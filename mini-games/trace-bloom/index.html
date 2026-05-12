@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trace Bloom | Browser Mini Game</title>
+  <meta name="description" content="Trace Bloom is a lightweight browser game built with vanilla JavaScript and HTML Canvas.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="hero">
+      <p class="eyebrow">browser mini game · vanilla JavaScript · HTML Canvas</p>
+      <h1>Trace Bloom</h1>
+      <p class="tagline">
+        Draw a live signal trace through a corrupted network and stabilize leaking nodes before red noise pulses tear the route apart.
+      </p>
+    </section>
+
+    <section class="game-card" aria-label="Trace Bloom game">
+      <canvas id="game" width="960" height="540" aria-label="Trace Bloom game canvas"></canvas>
+
+      <div class="controls">
+        <span><strong>Move</strong> WASD / Arrows</span>
+        <span><strong>Trace</strong> Space / Left Mouse</span>
+        <span><strong>Pause</strong> P</span>
+        <span><strong>Restart</strong> R</span>
+        <span><strong>Mute</strong> M</span>
+      </div>
+    </section>
+
+    <section class="about">
+      <h2>How it works</h2>
+      <p>
+        Hold the trace button and move into cyan leak nodes to charge them. Stabilize all nodes to complete a wave.
+        Red noise pulses damage your signal and can cut your active trace. The game gets denser and faster over time.
+      </p>
+    </section>
+  </main>
+
+  <script src="trace-bloom.js"></script>
+</body>
+</html>

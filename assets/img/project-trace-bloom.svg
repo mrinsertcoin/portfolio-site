@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="520" viewBox="0 0 800 520" role="img" aria-labelledby="title desc">
+  <title id="title">Trace Bloom project preview</title>
+  <desc id="desc">Abstract neon browser mini-game preview with signal nodes and trace lines.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="0.52" stop-color="#0b172b"/>
+      <stop offset="1" stop-color="#04070f"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="800" height="520" rx="36" fill="url(#bg)"/>
+  <g opacity=".18" stroke="#5ff5ff" stroke-width="1">
+    <path d="M0 80h800M0 160h800M0 240h800M0 320h800M0 400h800M0 480h800"/>
+    <path d="M80 0v520M160 0v520M240 0v520M320 0v520M400 0v520M480 0v520M560 0v520M640 0v520M720 0v520"/>
+  </g>
+  <g fill="none" filter="url(#glow)">
+    <path d="M145 360 C230 250, 320 360, 400 235 S570 160, 660 270" stroke="#5ff5ff" stroke-width="12" stroke-linecap="round" opacity=".32"/>
+    <path d="M145 360 C230 250, 320 360, 400 235 S570 160, 660 270" stroke="#5ff5ff" stroke-width="4" stroke-linecap="round"/>
+    <path d="M160 373 C245 255, 320 372, 405 245 S580 172, 675 282" stroke="#ff4fd8" stroke-width="2" opacity=".7"/>
+  </g>
+  <g filter="url(#glow)">
+    <circle cx="145" cy="360" r="42" fill="rgba(95,245,255,.14)" stroke="#5ff5ff" stroke-width="5"/>
+    <circle cx="400" cy="235" r="48" fill="rgba(95,245,255,.14)" stroke="#5ff5ff" stroke-width="5"/>
+    <circle cx="660" cy="270" r="42" fill="rgba(118,255,180,.14)" stroke="#76ffb4" stroke-width="5"/>
+    <circle cx="292" cy="165" r="28" fill="rgba(255,68,94,.18)" stroke="#ff445e" stroke-width="5"/>
+    <path d="M292 122l16 34 38 6-28 26 7 38-33-18-34 18 7-38-28-26 38-6z" fill="rgba(255,68,94,.22)" stroke="#ff445e" stroke-width="3"/>
+    <circle cx="530" cy="350" r="25" fill="rgba(255,68,94,.18)" stroke="#ff445e" stroke-width="4"/>
+    <path d="M520 332l24 18-26 17" stroke="#ff445e" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M115 95h140" stroke="#5ff5ff" stroke-width="3" opacity=".85"/>
+    <path d="M115 120h90" stroke="#ff4fd8" stroke-width="3" opacity=".85"/>
+    <text x="115" y="74" fill="#e8fbff" font-size="38" font-family="ui-monospace, Consolas, monospace" font-weight="700">TRACE BLOOM</text>
+    <text x="115" y="455" fill="#9db3c1" font-size="20" font-family="ui-monospace, Consolas, monospace">browser mini-game · canvas · vanilla js</text>
+  </g>
+</svg>

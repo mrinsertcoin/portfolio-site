@@ -1,0 +1,106 @@
+:root {
+  color-scheme: dark;
+  --bg: #05070f;
+  --panel: rgba(10, 17, 32, 0.78);
+  --panel-border: rgba(111, 239, 255, 0.24);
+  --text: #e8fbff;
+  --muted: #9db3c1;
+  --cyan: #5ff5ff;
+  --magenta: #ff4fd8;
+  --red: #ff445e;
+}
+
+* { box-sizing: border-box; }
+html, body { min-height: 100%; margin: 0; }
+body {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(95, 245, 255, 0.18), transparent 28rem),
+    radial-gradient(circle at 80% 20%, rgba(255, 79, 216, 0.13), transparent 24rem),
+    linear-gradient(180deg, #05070f 0%, #08101f 58%, #03050c 100%);
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(95, 245, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(95, 245, 255, 0.045) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(circle at center, black 0%, transparent 78%);
+}
+.page-shell {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 48px 0 64px;
+}
+.hero { margin-bottom: 24px; }
+.eyebrow {
+  margin: 0 0 10px;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+}
+h1 {
+  margin: 0;
+  font-size: clamp(3rem, 9vw, 7rem);
+  line-height: 0.9;
+  letter-spacing: -0.08em;
+  text-shadow: 0 0 24px rgba(95, 245, 255, 0.24), 8px 0 0 rgba(255, 79, 216, 0.14);
+}
+.tagline {
+  max-width: 760px;
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 2vw, 1.18rem);
+  line-height: 1.65;
+}
+.game-card {
+  padding: 14px;
+  border: 1px solid var(--panel-border);
+  border-radius: 24px;
+  background: var(--panel);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+}
+canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border-radius: 18px;
+  background: #03060d;
+}
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 14px 4px 2px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+.controls span {
+  padding: 8px 10px;
+  border: 1px solid rgba(157, 179, 193, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+}
+.controls strong { color: var(--text); margin-right: 6px; }
+.about {
+  margin-top: 28px;
+  padding: 24px;
+  border: 1px solid rgba(157, 179, 193, 0.16);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.035);
+}
+.about h2 { margin: 0 0 8px; }
+.about p { margin: 0; color: var(--muted); line-height: 1.7; }
+@media (max-width: 720px) {
+  .page-shell { width: min(100% - 18px, 1120px); padding-top: 24px; }
+  .game-card { padding: 8px; border-radius: 18px; }
+  canvas { border-radius: 14px; }
+  .controls { font-size: 0.8rem; }
+}

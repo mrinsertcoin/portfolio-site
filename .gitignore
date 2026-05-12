@@ -14,3 +14,10 @@ Thumbs.db
 
 # Optional local CV drafts
 assets/cv/*.tmp
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example

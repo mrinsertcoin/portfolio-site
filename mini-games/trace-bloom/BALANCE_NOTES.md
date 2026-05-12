@@ -1,27 +1,31 @@
 # Balance Notes
 
-This version fixes the main design problem from the earlier build.
+This version is a stricter fairness patch.
 
-## What was wrong
+## Main fix
 
-Enemies could target and camp the same cyan nodes the player had to stabilize.  
-That made the objective feel unfair because the player had to stand still while enemies occupied the node.
+All enemies now target **only the player**.
+
+No enemy type is allowed to select cyan leak nodes/objectives as a movement target.  
+In `trace-bloom.js`, `updateEnemies()` directly uses the player as the target.
 
 ## What changed
 
-- Enemies now pressure the player instead of targeting leak nodes.
-- Stabilization works in a larger radius around each cyan node.
-- You can move around inside the bloom radius instead of standing perfectly still.
-- Active tracing near a node creates a bloom field.
-- The bloom field pushes nearby enemies away.
-- Enemies that stay too close to an active bloom field can be destroyed.
-- Wave 1 starts with only 1 slow enemy.
-- Extra enemy spawning is disabled for waves 1 and 2.
-- Enemy speed and damage were reduced.
-- Node stabilization is faster.
+- Red circle/noise enemies target only the player.
+- Hunters target only the player.
+- Cutters target only the player.
+- Objective/node targeting was removed from enemy AI.
+- Enemy speed was reduced globally.
+- Enemy steering responsiveness was reduced.
+- Extra spawning starts later and ramps more slowly.
+- Node stabilization is much faster.
+- Node progress decays much more slowly.
+- Stabilization radius is larger and easier to read.
+- Bloom field knockback is stronger.
+- Bloom field can clear enemies that chase the player into the node area.
 
-## Core mechanic
+## Intended loop
 
-Hold **Space** or **Left Mouse** while near a cyan node.  
-Move around inside the faint outer ring until the progress ring fills.  
-The bloom field gives you temporary space control while you stabilize the node.
+Move near a cyan node, hold **Space** or **Left Mouse**, keep moving inside the faint outer ring, and let the node bloom quickly.
+
+Enemies should pressure your movement, but they should no longer camp the objective.

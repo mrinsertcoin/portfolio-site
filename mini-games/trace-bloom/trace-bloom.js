@@ -71,7 +71,7 @@
     state.wave = 1;
     state.message = "TRACE ONLINE";
     state.messageTimer = 2.0;
-    state.hint = "Hold SPACE or LEFT MOUSE near cyan nodes. The bloom field pushes enemies away.";
+    state.hint = "Enemies only chase you now. Hold trace near cyan nodes; they bloom much faster.";
     state.hintTimer = 7.5;
     state.cameraShake = 0;
 
@@ -110,7 +110,7 @@
     trace = [];
 
     const leakCount = Math.min(2 + Math.floor(wave / 3), 5);
-    const enemyCount = wave === 1 ? 1 : 2 + Math.floor(wave * 1.15);
+    const enemyCount = wave === 1 ? 1 : 1 + Math.floor(wave * 0.95);
 
     for (let i = 0; i < leakCount; i++) {
       leaks.push({
@@ -133,7 +133,7 @@
 
     announce(`WAVE ${wave}`);
     if (wave === 1) {
-      state.hint = "Training wave: trace near nodes. You can move around inside the bloom radius.";
+      state.hint = "Training wave: hold trace near the cyan node. You can move while collecting.";
       state.hintTimer = 6.5;
     } else if (wave === 2) {
       state.hint = "Tip: collect green packets to refill trace energy.";
@@ -161,7 +161,7 @@
       vx: 0,
       vy: 0,
       r: isCutter ? 15 : isHunter ? 18 : 13,
-      speed: isCutter ? rand(48, 72) : isHunter ? rand(62, 92) : rand(44, 68),
+      speed: isCutter ? rand(30, 46) : isHunter ? rand(38, 58) : rand(28, 44),
       type: isCutter ? "cutter" : isHunter ? "hunter" : "noise",
       wobble: rand(0, TAU)
     });
@@ -280,10 +280,10 @@
         continue;
       }
 
-      const touching = Math.hypot(player.x - leak.x, player.y - leak.y) < leak.r + player.r + 22;
+      const touching = Math.hypot(player.x - leak.x, player.y - leak.y) < leak.r + player.r + 38;
       if (touching && isTracing()) {
-        leak.progress += dt * 1.05;
-        player.energy = Math.max(0, player.energy - dt * 3.5);
+        leak.progress += dt * 2.75;
+        player.energy = Math.max(0, player.energy - dt * 2.2);
 
         // Active bloom field:
         // While tracing inside a node, the node emits a defensive pulse.
@@ -295,10 +295,10 @@
           if (d < leak.r + 70) {
             const nx = (enemy.x - leak.x) / Math.max(1, d);
             const ny = (enemy.y - leak.y) / Math.max(1, d);
-            enemy.vx += nx * 520 * dt;
-            enemy.vy += ny * 520 * dt;
+            enemy.vx += nx * 820 * dt;
+            enemy.vy += ny * 820 * dt;
 
-            if (d < leak.r + 28 && Math.random() < dt * 3.2) {
+            if (d < leak.r + 38 && Math.random() < dt * 5.5) {
               spawnParticle(enemy.x, enemy.y, colors.cyan, 2.4, 0.45);
               enemies.splice(i, 1);
               state.score += 90;
@@ -322,7 +322,7 @@
           }
         }
       } else {
-        leak.progress = Math.max(0, leak.progress - dt * 0.018);
+        leak.progress = Math.max(0, leak.progress - dt * 0.006);
       }
     }
 
@@ -336,22 +336,20 @@
   }
 
   function nearestTarget(enemy) {
-    // Fairness fix:
-    // Enemies should pressure the player, not camp the exact objective node.
-    // The old version often targeted active leak nodes, which made the core mechanic
-    // feel impossible because enemies waited on the place the player had to stand.
+    // All enemy types target only the player.
+    // No enemy is allowed to select leak nodes/objectives as a target.
     return player;
   }
 
   function updateEnemies(dt) {
-    const extraSpawnRate = state.wave <= 2 ? 0.0 : 0.006 + state.wave * 0.003 + state.time * 0.00022;
+    const extraSpawnRate = state.wave <= 3 ? 0.0 : 0.003 + state.wave * 0.0018 + state.time * 0.00012;
     if (Math.random() < extraSpawnRate) spawnEnemy();
 
     for (let i = enemies.length - 1; i >= 0; i--) {
       const e = enemies[i];
       e.wobble += dt * 3.5;
 
-      const target = nearestTarget(e);
+      const target = player;
       let dx = target.x - e.x;
       let dy = target.y - e.y;
       const len = Math.hypot(dx, dy) || 1;
@@ -361,8 +359,8 @@
       const wobbleX = Math.cos(e.wobble * 2.1) * 0.55;
       const wobbleY = Math.sin(e.wobble * 1.7) * 0.55;
 
-      e.vx = lerp(e.vx, (dx + wobbleX) * e.speed, 0.05);
-      e.vy = lerp(e.vy, (dy + wobbleY) * e.speed, 0.05);
+      e.vx = lerp(e.vx, (dx + wobbleX) * e.speed, 0.032);
+      e.vy = lerp(e.vy, (dy + wobbleY) * e.speed, 0.032);
 
       e.x += e.vx * dt;
       e.y += e.vy * dt;
@@ -573,7 +571,7 @@
         ctx.strokeStyle = "rgba(95, 245, 255, 0.16)";
         ctx.lineWidth = 1;
         ctx.beginPath();
-        ctx.arc(0, 0, leak.r + 36, 0, TAU);
+        ctx.arc(0, 0, leak.r + 52, 0, TAU);
         ctx.stroke();
       }
 
@@ -759,7 +757,7 @@
     ctx.font = "16px ui-monospace, SFMono-Regular, Consolas, monospace";
     ctx.textAlign = "center";
     ctx.fillText("Hold SPACE or LEFT MOUSE near cyan nodes to stabilize them", W / 2, H / 2 + 88);
-    ctx.fillText("Bloom fields push enemies away. Green packets refill trace energy.", W / 2, H / 2 + 114);
+    ctx.fillText("Enemies chase you, not nodes. Bloom fields push them away.", W / 2, H / 2 + 114);
     ctx.textAlign = "left";
   }
 

@@ -39,6 +39,8 @@
     best: Number(localStorage.getItem("traceBloomBest") || "0"),
     message: "",
     messageTimer: 0,
+    hint: "",
+    hintTimer: 0,
     cameraShake: 0
   };
 
@@ -69,6 +71,8 @@
     state.wave = 1;
     state.message = "TRACE ONLINE";
     state.messageTimer = 2.0;
+    state.hint = "Hold SPACE or LEFT MOUSE inside cyan nodes until the ring fills.";
+    state.hintTimer = 7.5;
     state.cameraShake = 0;
 
     player.x = W / 2;
@@ -105,8 +109,8 @@
     packets = [];
     trace = [];
 
-    const leakCount = Math.min(3 + Math.floor(wave / 3), 6);
-    const enemyCount = 4 + wave * 2;
+    const leakCount = Math.min(2 + Math.floor(wave / 3), 5);
+    const enemyCount = wave === 1 ? 2 : 3 + Math.floor(wave * 1.45);
 
     for (let i = 0; i < leakCount; i++) {
       leaks.push({
@@ -128,6 +132,13 @@
     }
 
     announce(`WAVE ${wave}`);
+    if (wave === 1) {
+      state.hint = "Training wave: stabilize the two cyan nodes. Red enemies are slower here.";
+      state.hintTimer = 6.5;
+    } else if (wave === 2) {
+      state.hint = "Tip: collect green packets to refill trace energy.";
+      state.hintTimer = 5.5;
+    }
   }
 
   function spawnEnemy() {
@@ -150,7 +161,7 @@
       vx: 0,
       vy: 0,
       r: isCutter ? 15 : isHunter ? 18 : 13,
-      speed: isCutter ? rand(95, 130) : isHunter ? rand(120, 160) : rand(80, 120),
+      speed: isCutter ? rand(62, 92) : isHunter ? rand(82, 118) : rand(58, 88),
       type: isCutter ? "cutter" : isHunter ? "hunter" : "noise",
       wobble: rand(0, TAU)
     });
@@ -199,6 +210,7 @@
 
     state.time += dt;
     state.messageTimer = Math.max(0, state.messageTimer - dt);
+    state.hintTimer = Math.max(0, state.hintTimer - dt);
     state.cameraShake = Math.max(0, state.cameraShake - dt * 24);
     player.invuln = Math.max(0, player.invuln - dt);
 
@@ -244,7 +256,7 @@
         spawnParticle(player.x, player.y, colors.cyan, 1.4, 0.7);
       }
     } else {
-      player.energy = Math.min(100, player.energy + dt * 13);
+      player.energy = Math.min(100, player.energy + dt * 18);
     }
   }
 
@@ -270,8 +282,8 @@
 
       const touching = Math.hypot(player.x - leak.x, player.y - leak.y) < leak.r + player.r;
       if (touching && isTracing()) {
-        leak.progress += dt * 0.44;
-        player.energy = Math.max(0, player.energy - dt * 8);
+        leak.progress += dt * 0.78;
+        player.energy = Math.max(0, player.energy - dt * 5);
 
         if (Math.random() < dt * 42) {
           spawnParticle(leak.x + rand(-16, 16), leak.y + rand(-16, 16), colors.cyan, 2.2, 1.0);
@@ -289,7 +301,7 @@
           }
         }
       } else {
-        leak.progress = Math.max(0, leak.progress - dt * 0.045);
+        leak.progress = Math.max(0, leak.progress - dt * 0.018);
       }
     }
 
@@ -297,7 +309,7 @@
       state.score += state.wave * 1000;
       state.wave += 1;
       player.signal = Math.min(100, player.signal + 16);
-      player.energy = Math.min(100, player.energy + 35);
+      player.energy = Math.min(100, player.energy + 45);
       startWave(state.wave);
     }
   }
@@ -323,7 +335,7 @@
   }
 
   function updateEnemies(dt) {
-    const extraSpawnRate = 0.03 + state.wave * 0.009 + state.time * 0.0009;
+    const extraSpawnRate = state.wave === 1 ? 0.0 : 0.012 + state.wave * 0.005 + state.time * 0.00045;
     if (Math.random() < extraSpawnRate) spawnEnemy();
 
     for (let i = enemies.length - 1; i >= 0; i--) {
@@ -347,7 +359,7 @@
       e.y += e.vy * dt;
 
       if (dist(e, player) < e.r + player.r && player.invuln <= 0) {
-        hurtPlayer(e.type === "hunter" ? 17 : 11);
+        hurtPlayer(e.type === "hunter" ? 10 : 7);
         enemies.splice(i, 1);
         continue;
       }
@@ -357,7 +369,7 @@
           const p = trace[j];
           if (Math.hypot(e.x - p.x, e.y - p.y) < e.r + 6) {
             trace.splice(0, Math.max(0, j - 5));
-            player.signal = Math.max(0, player.signal - 5);
+            player.signal = Math.max(0, player.signal - 3);
             state.cameraShake = 5;
             spawnParticle(e.x, e.y, colors.red, 2.5, 0.7);
             break;
@@ -386,8 +398,8 @@
       p.phase += dt * 4;
 
       if (dist(p, player) < p.r + player.r) {
-        player.energy = Math.min(100, player.energy + 35);
-        player.signal = Math.min(100, player.signal + 5);
+        player.energy = Math.min(100, player.energy + 45);
+        player.signal = Math.min(100, player.signal + 8);
         state.score += 80;
         playTone(680, 0.04, 0.035);
         for (let k = 0; k < 14; k++) spawnParticle(p.x, p.y, colors.green, 1.8, 0.65);
@@ -697,6 +709,16 @@
       ctx.font = "bold 28px ui-monospace, SFMono-Regular, Consolas, monospace";
       ctx.textAlign = "center";
       ctx.fillText(state.message, W / 2, 62);
+      ctx.restore();
+    }
+
+    if (state.hintTimer > 0 && state.hint) {
+      ctx.save();
+      ctx.globalAlpha = clamp(state.hintTimer, 0, 1);
+      ctx.fillStyle = "rgba(232, 251, 255, 0.88)";
+      ctx.font = "15px ui-monospace, SFMono-Regular, Consolas, monospace";
+      ctx.textAlign = "center";
+      ctx.fillText(state.hint, W / 2, H - 34);
       ctx.restore();
     }
   }
